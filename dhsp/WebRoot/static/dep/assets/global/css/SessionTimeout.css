@@ -1,0 +1,41 @@
+body{
+	background:url("../img/timeOut1.png") no-repeat top center #36435b;	
+}
+.container{
+	width: 445px;
+}
+.contWrap{
+	background: url("../img/timeOut2.png") no-repeat;
+	padding: 41px 30px;
+	margin-top: 275px;
+	height: 130px;
+	color: #9aabc7;	
+	font-size: 14px;
+	letter-spacing:2px;
+}
+.btn-xs{
+	border-radius: 20px; 
+	border: 0px;
+	font-size: 14px;
+    height: 30px;
+    padding: 0 13px 0 15px;
+    color: #ffffff;
+}
+.btn-add1{
+	background: #2990f6;
+}
+.btn-add2{
+	background: #f73d46;
+}
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn.focus:active, .btn:active:focus, .btn:focus{
+		outline: none;		
+		border: 0px;
+}
+.btn-add1:focus,.btn-add1:hover{
+	background: #29a9f6;
+	color: #ffffff;
+}
+.btn-add2:focus,.btn-add2:hover{
+	background: #ff4f3f;
+	color: #ffffff;
+}

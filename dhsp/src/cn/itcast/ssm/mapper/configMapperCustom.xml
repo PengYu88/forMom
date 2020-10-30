@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.ssm.mapper.configMapperCustom" >
+
+ 
+  	
+  	<select id="findconfig" resultType="cn.itcast.ssm.po.config">
+  		SELECT deliveryStyle FROM config  
+  	</select>
+  	
+  	
+  	
+  	<update id="updateconfig" parameterType="cn.itcast.ssm.po.config" >
+		update config
+		set 
+			deliveryStyle = #{deliveryStyle}
+	</update>
+	
+  	
+</mapper>

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.ssm.mapper.orderMapperCustom" >
+	
+	<!-- 定义商品查询的sql片段，就是商品查询条件 -->
+	<sql id="query_order_where">
+   	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+   		<if test="orderCustom!=null">
+   			<if test="orderCustom.orderId!=null and orderCustom.orderId!=''">
+   				AND orders.orderId = '${orderCustom.orderId}'
+   			</if>
+   			<if test="orderCustom.orderNo!=null and orderCustom.orderNo!=''">
+   				AND orders.orderNo = '${orderCustom.orderNo}'
+   			</if>
+   			<if test="orderCustom.deliveryMan!=null and orderCustom.deliveryMan!=''">
+   				AND orders.deliveryMan = '${orderCustom.deliveryMan}'
+   			</if>
+   			<if test="orderCustom.deliveryDate!=null and orderCustom.deliveryDate!=''">
+   				AND orders.deliveryDate = '${orderCustom.deliveryDate}'
+   			</if>
+<!--    			<if test="orderCustom.orderClient!=null and orderCustom.orderClient!=''">
+   				AND orders.orderClient LIKE '%${orderCustom.orderClient}%'
+   			</if> -->
+   		</if>
+	</sql>
+  	 
+  	<!--  查询订单列表 -->
+  	<select id="findOrderList" parameterType="cn.itcast.ssm.po.orderQueryVo"
+  		 resultType="cn.itcast.ssm.po.orderCustom">
+  		SELECT orderId,orderNo,orderClient,date_format(orderTime,'%Y-%m-%d %T') orderTime,FORMAT(orderSum,2) price,orderSts,deliveryMan,orderSum,deliveryDate FROM orders  WHERE 1=1
+		<include refid="query_order_where"></include>
+  		ORDER BY orderSts ASC, orders.orderTime DESC
+  	</select>
+  	
+  	<!-- 查询订单数量 -->
+  	<select id="findOrderCount" parameterType="cn.itcast.ssm.po.orderQueryVo"
+  		 resultType="cn.itcast.ssm.po.orderCustom">
+  		SELECT count(1) count FROM orders  WHERE  orders.orderSts = '0'
+		<include refid="query_order_where"></include>
+  	</select>
+  	
+  	<!-- 查询订单总金额（已合计） -->
+  	<select id="findInventorySum" parameterType="cn.itcast.ssm.po.orderQueryVo"
+  		 resultType="cn.itcast.ssm.po.orderCustom">
+  		SELECT FORMAT(IFNULL(SUM(orderSum),0),2) inventorySum FROM orders WHERE orders.orderSts = '0'
+		<include refid="query_order_where"></include>
+  	</select>
+ 
+ 	<!-- 插入订单信息 -->
+  	<insert id="insertOrder" parameterType="cn.itcast.ssm.po.orderCustom" >
+		insert into
+		orders 
+    	(orderNo,orderClient,orderTime,orderSum,orderSts,deliveryDate)
+		values 
+    	(#{orderNo}, #{orderClient}, NOW(), #{orderSum},'0',#{deliveryDate})
+  	</insert>
+  	
+  	<!-- 删除订单 -->
+	<delete id="deleteOrder" parameterType="cn.itcast.ssm.po.orderCustom" >
+	   delete from orders
+	   where orders.orderId = '${orderId}'
+  	</delete>
+  	
+  	<!-- 修改订单状态（扣除和合计） -->
+  	<update id="updateOrderSts" parameterType="cn.itcast.ssm.po.orderCustom" >
+		update orders
+		set 
+		orderSts = #{orderSts}
+    	where orders.orderId = '${orderId}'
+	</update>
+	
+	<!-- 修改订单 -->
+	<update id="updateOrder" parameterType="cn.itcast.ssm.po.orderCustom" >
+		update orders
+		set 
+		orderClient = #{orderClient},
+		orderSum = #{orderSum},
+		deliveryDate = #{deliveryDate}
+    	where orders.orderId = '${orderId}'
+	</update>
+
+	<!-- 获取最大id -->
+	<select id="findMaxOrderId" resultType="int">
+		SELECT MAX(orderId) FROM orders
+	</select>
+	
+	<!-- 修改订单配送人 -->
+	<update id="updateOrderDeliveryMan" parameterType="cn.itcast.ssm.po.orderCustom" >
+		update orders
+		set 
+		deliveryMan = #{deliveryMan}
+    	where orders.orderId = '${orderId}'
+	</update>
+  	
+</mapper>

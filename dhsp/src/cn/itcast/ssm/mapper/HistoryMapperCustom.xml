@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.ssm.mapper.HistoryMapperCustom" >
+
+	<sql id="query_order_where">
+   	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+   			<if test="clientInfo!=null and clientInfo!=''">
+   				AND history.clientInfo = '${clientInfo}'
+   			</if>
+   			<if test="updateTime!=null and updateTime!=''">
+   				AND history.updateTime = '${updateTime}'
+   			</if>
+	</sql>
+	
+ 
+ 	<!-- 插入历史信息 -->
+  	<insert id="insertHistory" parameterType="cn.itcast.ssm.po.HistoryCostom" >
+		insert into
+		history
+    	(clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,updateTime,orderId)
+		values 
+    	(#{clientInfo},#{goodsCode}, #{goodsName}, #{goodsSpec}, #{goodsUnit}, #{goodsQuantity}, #{goodsPrice}, #{goodsTotal}, #{goodsRemark},NOW(), #{orderId})
+  	</insert>
+  	
+ 
+   	<!-- 查询历史 -->
+  	<select id="findHistoryList" parameterType="String" resultType="cn.itcast.ssm.po.HistoryList">
+  		select clientInfo, sum(goodsTotal) priceSum,DATE_FORMAT(updateTime,'%Y-%m-%d %T') updateTime from history where clientInfo = #{clientInfo} GROUP BY updateTime order by updateTime desc
+  	</select>
+  	
+  	
+  	   	<!-- 查询历史 -->
+  	<select id="findHistoryListByOrderId" parameterType="String" resultType="cn.itcast.ssm.po.HistoryCostom">
+  	  		SELECT history_id,clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,DATE_FORMAT(updateTime,'%Y-%m-%d %T') updateTime FROM history where orderId = #{orderId}
+  	</select>
+  	
+  	
+  	   	<!-- 查询历史 -->
+  	<select id="findHistory" parameterType="String" resultType="cn.itcast.ssm.po.HistoryCostom">
+  		SELECT history_id,clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,DATE_FORMAT(updateTime,'%Y-%m-%d %T') updateTime FROM history where updateTime = #{updateTime} 
+  	</select>
+  	
+  	<delete id="deleteHistory" parameterType="cn.itcast.ssm.po.HistoryCostom" >
+	   delete from history
+	   where 1=1 
+	   <include refid="query_order_where"></include>
+  	</delete>
+  	
+  	<select id="selectGoodPriceByClient" parameterType="cn.itcast.ssm.po.HistoryCostom" resultType="cn.itcast.ssm.po.HistoryCostom">
+		SELECT * FROM history WHERE clientInfo = #{clientInfo} AND goodsName = #{goodsName} ORDER BY updateTime desc LIMIT 1
+  	</select>
+  	
+</mapper>

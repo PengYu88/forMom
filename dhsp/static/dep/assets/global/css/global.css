@@ -1,0 +1,147 @@
+body, h1, h2, h3, h4, h5, h6{
+	font-family: "微软雅黑","Open Sans",sans-serif
+}
+
+.dropdown-tree {
+	position: absolute;
+	top: 75%;
+	left: 15px;
+	z-index: 1000;
+	display: none;
+	float: left;
+	min-width: 260px;
+	overflow-x: auto;
+	padding: 5px 0;
+	margin: 2px 0 0;
+	font-size: 14px;
+	text-align: left;
+	list-style: none;
+	background-color: #fff;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+	border: 1px solid #ccc;
+	border: 1px solid rgba(0, 0, 0, .15);
+	border-radius: 4px;
+	-webkit-box-shadow: 0 6px 12px
+}
+
+.input-cell{
+	padding:0!important;
+	vertical-align: middle!important;
+}
+
+/* model 控件浮动到最上层*/
+.bootbox{
+	z-index: 100000
+}
+.sweet-overlay{
+	z-index: 100001
+}
+.sweet-alert{
+	z-index: 100002
+}
+/* model 控件浮动到最上层*/
+.modal-open .datetimepicker{
+	z-index: inherit;
+}
+
+/* 日历 控件浮动到最上层*/
+
+
+/* bootstrap 表格高度调整 */
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+	padding:7px;
+	text-align: center;
+	font-size: 12px;
+}
+table>td, table>th {
+	padding:7px;
+	text-align: center;
+	font-size: 12px!important;
+}
+
+.table td, .table th {
+	padding:7px;
+	text-align: center;
+	font-size: 12px!important;
+}
+
+.portlet.light{
+	padding: 5px 20px  0;
+} 
+
+.portlet{
+	margin-bottom: 15px;
+}
+
+.table-scrollable{
+	margin: 0!important;
+}
+
+.col-xs-2-4 {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.col-xs-2-4 {
+	float: left;
+}
+
+.col-xs-2-4 {
+	width: 20%;
+}
+
+.col-xs-4-8 {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.col-xs-4-8 {
+	float: left;
+}
+
+.col-xs-4-8 {
+	width: 40%;
+}
+
+.col-xs-7-2 {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.col-xs-7-2 {
+	float: left;
+}
+
+.col-xs-7-2 {
+	width: 60%;
+}
+
+.col-xs-9-6 {
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.col-xs-9-6 {
+	float: left;
+}
+
+.col-xs-9-6 {
+	width: 80%;
+}
+.text-left{
+	text-align: left!important;
+}
+
+.bg-color-e{
+	background-color: #EEEEEE;
+}
+

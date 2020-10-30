@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.ssm.mapper.goodsMapperCustom" >
+
+   <!-- 定义商品查询的sql片段，就是商品查询条件 -->
+	<sql id="query_goods_where">
+   	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+   	<!-- 商品查询条件通过ItemsQueryVo包装对象 中itemsCustom属性传递 -->
+		<if test="goodsCustom!=null">
+			<if test="goodsCustom.goodsId!=null and goodsCustom.goodsId!=''">
+   				AND goods.goodsId = '${goodsCustom.goodsId}'
+   			</if>
+   			<if test="goodsCustom.goodsCode!=null and goodsCustom.goodsCode!=''">
+   				AND goods.goodsCode = '${goodsCustom.goodsCode}'
+   			</if>
+			<if test="goodsCustom.goodsName!=null and goodsCustom.goodsName!=''">
+   				AND goods.goodsName LIKE '%${goodsCustom.goodsName}%'
+   			</if>
+   			<if test="goodsCustom.factory!=null and goodsCustom.factory!=''">
+   				AND goods.factory LIKE '%${goodsCustom.factory}%'
+   			</if>
+   		</if>
+   </sql>
+  	
+  	<!-- 商品列表查询 -->
+  	<select id="findGoodsList" parameterType="cn.itcast.ssm.po.goodsQueryVo"
+  		 resultType="cn.itcast.ssm.po.goodsCustom">
+  		SELECT goodsId,goodsCode,goodsName,goodsSpec,factory,goodsUnit,FORMAT(goodsPrice,2) price,goodsPrice,goodsRemark,updateTime FROM goods  
+  		WHERE 1=1	
+		<include refid="query_goods_where"></include>
+  		ORDER BY goods.factory ASC , goods.updateTime DESC
+  		limit ${goodsCustom.num} ,10
+  	</select>
+  	
+  	<!-- 商品数量查询 -->
+  	<select id="findGoodsCount" parameterType="cn.itcast.ssm.po.goodsQueryVo"
+  		 resultType="cn.itcast.ssm.po.goodsCustom">
+  		SELECT count(1) count FROM goods  
+  		WHERE 1=1
+		<include refid="query_goods_where"></include>
+  	</select>
+  	
+  	<!-- 删除商品-->
+  	<delete id="deleteGoods" parameterType="cn.itcast.ssm.po.goodsQueryVo" >
+	    delete from goods
+	    where goods.goodsId = '${goodsCustom.goodsId}'
+  	</delete>
+  	
+  	<!-- 新增商品 -->
+  	<insert id="insertGoods" parameterType="cn.itcast.ssm.po.goodsCustom" >
+		insert into
+		goods 
+    	(goodsCode,goodsName,goodsSpec,factory,goodsUnit,goodsPrice,goodsRemark,updateTime)
+		values 
+    	(#{goodsCode}, #{goodsName}, #{goodsSpec}, #{factory}, #{goodsUnit}, #{goodsPrice},#{goodsRemark},NOW()) 
+  	</insert>
+  	
+  	<!-- 修改商品 -->
+  	<update id="updateGoods" parameterType="cn.itcast.ssm.po.goodsCustom" >
+		update goods
+		set 
+			goodsCode = #{goodsCode},
+			goodsName = #{goodsName},
+			goodsSpec = #{goodsSpec},
+			factory = #{factory},
+			goodsUnit = #{goodsUnit},
+			goodsPrice = #{goodsPrice},
+			goodsRemark = #{goodsRemark},
+			updateTime = NOW()
+    	where goods.goodsId = '${goodsId}'
+	</update>
+	
+  	<select id="goodsCode" parameterType="cn.itcast.ssm.po.clientAdress"
+  		 resultType="cn.itcast.ssm.po.clientAdress">
+  		SELECT goodsId as id, goodsCode as name FROM goods
+  	</select>
+  	
+  	<select id="goodsName" parameterType="cn.itcast.ssm.po.clientAdress"
+  		 resultType="cn.itcast.ssm.po.clientAdress">
+  		SELECT goodsId as id, goodsName as name FROM goods
+  	</select>
+  	
+  	
+</mapper>

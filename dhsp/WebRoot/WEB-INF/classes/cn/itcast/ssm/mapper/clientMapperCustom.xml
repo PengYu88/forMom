@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.itcast.ssm.mapper.clientMapperCustom" >
+
+   <!-- 定义商品查询的sql片段，就是商品查询条件 -->
+	<sql id="query_client_where">
+   	<!-- 使用动态sql，通过if判断，满足条件进行sql拼接 -->
+		<if test="clientCustom!=null">
+			<if test="clientCustom.clientId!=null and clientCustom.clientId!=''">
+				AND client.clientId = '${clientCustom.clientId}'
+			</if>
+			<if test="clientCustom.clientCode!=null and clientCustom.clientCode!=''">
+				AND client.clientCode = '${clientCustom.clientCode}'
+			</if>
+			<if test="clientCustom.clientName!=null and clientCustom.clientName!=''">
+				AND client.clientName LIKE '%${clientCustom.clientName}%'
+			</if>
+   		</if>
+	</sql>
+  	 
+  	<!-- 客户列表查询 -->
+  	<select id="findClientList" parameterType="cn.itcast.ssm.po.clientQueryVo"
+  		 resultType="cn.itcast.ssm.po.clientCustom">
+  		SELECT client.* FROM client  
+  		WHERE 1 = 1
+		<include refid="query_client_where"></include>
+  		ORDER BY client.updateTime DESC
+  		limit ${clientCustom.num} ,10
+  	</select>
+  	
+  	<!-- 客户数量查询 -->
+  	<select id="findClientCount" parameterType="cn.itcast.ssm.po.clientQueryVo"
+  		 resultType="cn.itcast.ssm.po.clientCustom">
+  		SELECT count(1) count FROM client  
+  		WHERE 1 = 1
+		<include refid="query_client_where"></include>
+  	</select>
+  	
+  	<!-- 删除客户信息 -->
+  	<delete id="deleteClient" parameterType="cn.itcast.ssm.po.clientQueryVo" >
+	    delete from client
+	    where client.clientId = '${clientCustom.clientId}'
+  	</delete>
+  	
+  	<!-- 插入客户信息 -->
+	<insert id="insertClient" parameterType="cn.itcast.ssm.po.clientCustom" >
+		insert into
+		client 
+    	(clientId,clientCode,clientName,clientAddress,clientTelephone,updateTime)
+		values 
+    	(#{clientId}, #{clientCode}, #{clientName}, #{clientAddress}, #{clientTelephone},NOW()) 
+  	</insert>
+  	
+  	<!-- 修改客户信息 -->
+  	<update id="updateClient" parameterType="cn.itcast.ssm.po.clientCustom" >
+		update client
+		set 
+			clientCode = #{clientCode},
+			clientName = #{clientName},
+			clientAddress = #{clientAddress},
+			clientTelephone = #{clientTelephone},
+			updateTime = NOW()
+    	where client.clientId = '${clientId}'
+  	</update>
+  	
+  	  	<!-- 客户列表查询 -->
+  	<select id="findClientAdress" parameterType="cn.itcast.ssm.po.clientAdress"
+  		 resultType="cn.itcast.ssm.po.clientAdress">
+  		SELECT clientId as id,clientName as name FROM client
+  	</select>
+  	
+</mapper>
