@@ -95,6 +95,9 @@ public class receipController {
 			List<HistoryCostom> historyList = historyService.selectGoodPriceByClient(h);
 			if(historyList.size()>0 && itemsList.size()>0) {
 				itemsList.get(0).setPrice(historyList.get(0).getGoodsPrice());
+				itemsList.get(0).setIfHasHistory(1);
+			}else {
+				itemsList.get(0).setIfHasHistory(0);
 			}
 		}
 		
@@ -182,6 +185,20 @@ public class receipController {
 			String orderClient = request.getParameter("orderClient");
 			String deliveryDate = request.getParameter("deliverDate");
 			double ordreSum = Double.parseDouble(request.getParameter("ordreSum"));
+			
+			clientCustom clientCustom = new clientCustom();
+			clientCustom.setClientName(orderClient);
+			clientQueryVo clientQueryVo = new clientQueryVo();
+			clientQueryVo.setClientCustom(clientCustom);
+			List<clientCustom> list1 = clientService.findClientCount(clientQueryVo);
+			if(list1.get(0).getCount()==0) {
+				clientCustom clientCustom1 = new clientCustom();
+				clientCustom1.setClientName(orderClient);
+				clientService.insertClient(clientCustom1);
+			}
+			
+			
+			
 			orderCustom orderCustom = new orderCustom();
 			orderCustom.setOrderNo(orderNo);
 			orderCustom.setOrderClient(orderClient);
@@ -203,7 +220,6 @@ public class receipController {
 		}
 	}
 	
-	//新增客户信息
 	@RequestMapping("/viewHistory")
 	public ModelAndView viewHistory(HttpServletRequest request) throws Exception{
 		System.out.println("===================================================================");
@@ -225,21 +241,22 @@ public class receipController {
 		return modelAndView;
 	}
 	
-	//新增客户信息
 	@RequestMapping("/viewHistoryById")
 	public ModelAndView viewHistoryById(HttpServletRequest request) throws Exception{
 		request.setCharacterEncoding("UTF-8"); 
-		String orderId = request.getParameter("orderId");
+		String orderId = request.getParameter("orderNo");
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("history/HistoryEdit");
-		
+		String sum = historyService.findSumById(orderId);
 		List<HistoryCostom> h = historyService.findHistoryListByOrderId(orderId);
+		HistoryList s = new HistoryList();
+		s.setHistoryCostoms(h);
+		s.setPriceSum(sum);
 		
 		List<HistoryList> hlsit = new ArrayList();
+		hlsit.add(s);
 		
-		HistoryList h1 = new HistoryList();
-		hlsit.add(h1);
-		h1.setHistoryCostoms(h);
+	
 		
 		modelAndView.addObject("name", hlsit);
 		return modelAndView;
@@ -255,6 +272,10 @@ public class receipController {
 		for(HistoryCostom h:historyList) {
 			if(h!=null) {
 				historyService.insertHistory(h);
+				goodsCustom goodsCustom = new goodsCustom();
+				goodsCustom.setReduceNum(Double.parseDouble(h.getGoodsQuantity()));
+				goodsCustom.setGoodsName(h.getGoodsName());
+				goodsService.reduceGoods(goodsCustom);
 			}
 		}
 	}
@@ -291,6 +312,31 @@ public class receipController {
 		config config = new config();
 		config.setDeliveryStyle(method);
 		configService.updateconfig(config);
+	}
+	
+	@RequestMapping("/reEditHistory")
+	public void reEditHistory(HttpServletRequest request,HttpServletResponse response) throws Exception{
+		request.setCharacterEncoding("UTF-8"); 
+		String orderId = request.getParameter("orderNo");
+		String sum = historyService.findSumById(orderId);
+		List<HistoryCostom> h = historyService.findHistoryListByOrderId(orderId);
+		HistoryList s = new HistoryList();
+		s.setHistoryCostoms(h);
+		s.setPriceSum(sum);
+		
+		List<HistoryList> hlsit = new ArrayList();
+		hlsit.add(s);
+		
+		JSONObject jsonObject = new JSONObject();
+		PrintWriter writer = null;
+		response.setContentType("text/json");
+		response.setCharacterEncoding("UTF-8");
+		writer = response.getWriter();
+		jsonObject.put("result", hlsit);
+		writer.println(jsonObject.toString());
+		writer.flush();
+		writer.close();
+
 	}
 
 }

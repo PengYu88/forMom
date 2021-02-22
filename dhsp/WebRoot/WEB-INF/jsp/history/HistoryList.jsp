@@ -20,39 +20,36 @@ String webpath = request.getContextPath();
 			<input type="hidden" id ="num" value="${num}">
 			<input type="hidden" id ="nowPage">
 				<div class="row">
+<!-- 					<div class="col-xs-4">
+						<div class="form-group form-group-sm">
+							<label class="col-xs-3 control-label control-label-sm">配送日期</label>
+							<div class="col-xs-9">
+								<input type="text" id="datetimepicker1" class="form-control" autocomplete="off" onchange="tsc.OrderList.doQuery()">
+							</div>
+						</div>
+					</div> -->
 					<div class="col-xs-4">
 						<div class="form-group form-group-sm">
-							<label class="col-xs-3 control-label control-label-sm">商品代码</label>
+							<label class="col-xs-3 control-label control-label-sm">客户名称</label>
 							<div class="col-xs-9">
-								<input id="goodsCode" name="goodsCode" type="text" class="form-control" placeholder="请输入商品代码">
+								<input id="clientName" name="clientName" type="text" class="form-control"  autocomplete="off"  placeholder="请输入客户名称">
 							</div>
 						</div>
 					</div>
 					<div class="col-xs-4">
 						<div class="form-group form-group-sm">
-							<label class="col-xs-3 control-label control-label-sm">商品名称</label>
+							<label class="col-xs-3 control-label control-label-sm">流水号</label>
 							<div class="col-xs-9">
-								<input id="goodsName" name="goodsName" type="text" class="form-control" placeholder="请输入商品名称">
+								<input id="orderNo" name="orderNo" type="text" class="form-control"  autocomplete="off"  placeholder="请输入订单流水号">
 							</div>
 						</div>
 					</div>
-<!-- 					<div class="col-xs-4"> -->
-<!-- 						<div class="form-group form-group-sm"> -->
-<!-- 							<label class="col-xs-3 control-label control-label-sm">生产厂家</label> -->
-<!-- 							<div class="col-xs-9"> -->
-<!-- 								<input id="factory" name="factory" type="text" class="form-control" placeholder="请输入生产厂家"> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
 				</div>
 				<div class="row" style="padding-bottom: 10px;">
 					<div class="col-xs-10">
 					</div>
-					<div class="col-xs-1" style="padding-right: 0;">
-						<a href="#" id="addBtn" class="btn btn-primary btn-sm pull-right">新增</a>
-					</div>
 					<div class="col-xs-1" style="padding-left: 0;">
-						<a href="#" id="queryBtn" class="btn btn-primary btn-sm pull-right" onclick="tsc.GoodsList.doQuery(1)">查询</a>
+						<a href="#" id="queryBtn" class="btn btn-primary btn-sm pull-right" onclick="tsc.HistoryList.doQuery(1)">查询</a>
 					</div>
 				</div>
 			</form>
@@ -60,14 +57,12 @@ String webpath = request.getContextPath();
 		<table class="table table-hover">
 			<thead>
 				<tr>
-				    <th>商品条码</th>
-				    <th>商品名称</th>
-				    <th>商品规格</th>
- 				    <th>生产厂家</th>
-				    <th>商品单位</th>
-				    <th>单价（元）</th>
-				    <th>备注</th>
-				    <th>库存数量</th>
+				    <th>订单流水号</th>
+				    <th>客户名称</th>
+				    <th>开票时间</th>
+				    <th>配送日期</th>
+				    <th>订单状态</th>
+				    <th>总金额</th>
 				    <th>操作</th>
 				</tr>
 			</thead>
@@ -86,4 +81,4 @@ String webpath = request.getContextPath();
 		</div>
 	</div>
 </div>
-<script src="GoodList.js" type="text/javascript"></script>
+<script src="HistoryList.js" type="text/javascript"></script>

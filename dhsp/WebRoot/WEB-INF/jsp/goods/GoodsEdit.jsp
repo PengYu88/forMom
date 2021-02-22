@@ -49,6 +49,7 @@ String flag = request.getAttribute("flag").toString();
 				<option>瓶</option>
 				<option>对</option>
 				<option>罐</option>
+				<option>包</option>
 			</select>
 	    </div>
 	</div>
@@ -62,6 +63,12 @@ String flag = request.getAttribute("flag").toString();
 	    <label for="editGoodsRemark" class="col-xs-4 control-label">备注</label>
 	    <div class="col-xs-5">
 			<input class="form-control" id="editGoodsRemark" name="editGoodsRemark" placeholder="备注" maxlength="30" value="${goodsCustom.goodsRemark}">
+	    </div>
+	</div>
+	<div class="form-group">
+	    <label for="goodsQuantity" class="col-xs-4 control-label">库存数量</label>
+	    <div class="col-xs-5">
+			<input class="form-control" id="goodsQuantity" name="goodsQuantity" placeholder="库存数量" maxlength="10" value="${goodsCustom.goodsQuantity}">
 	    </div>
 	</div>
 </form>

@@ -16,9 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.itcast.ssm.po.HistoryCostom;
+import cn.itcast.ssm.po.goodsCustom;
+import cn.itcast.ssm.po.goodsQueryVo;
 import cn.itcast.ssm.po.orderCustom;
 import cn.itcast.ssm.po.orderQueryVo;
 import cn.itcast.ssm.service.orderService;
+import cn.itcast.ssm.service.HistoryService;
+import cn.itcast.ssm.service.goodsService;
 import net.sf.json.JSONObject;
 
  
@@ -28,6 +33,13 @@ public class orderController {
 	//注入订单管理Service
 	@Autowired
 	private orderService orderService;
+	
+	
+	@Autowired
+	private HistoryService historyService;
+	
+	@Autowired
+	private goodsService goodsService;
 
 	//订单列表查询
 	@RequestMapping("/queryOrder")
@@ -173,6 +185,21 @@ public class orderController {
 			orderCustom orderCustom = new orderCustom();
 			orderCustom.setOrderId(orderId);
 			orderService.deleteOrder(orderCustom);
+			//HistoryCostom historyCostom = new HistoryCostom();
+			//historyCostom.setOrderId(orderId);
+			//historyService.deleteHistory(historyCostom);
+			
+			List<HistoryCostom> orderList = historyService.findHistoryListById(orderId);
+			
+			for(HistoryCostom historyCostom:orderList) {
+				historyCostom.getGoodsName();
+				historyCostom.getGoodsQuantity();
+				goodsCustom g = new goodsCustom();
+				g.setGoodsName(historyCostom.getGoodsName());
+				g.setReduceNum(Double.parseDouble(historyCostom.getGoodsQuantity()));
+				goodsService.increaseGoods(g);
+			}
+			
 			JSONObject jsonObject = new JSONObject();
 			PrintWriter writer = null;
 			response.setContentType("text/json");
@@ -292,5 +319,88 @@ public class orderController {
 			System.out.println("Exception in doUpdateClientSave of clientController");
 		}
 	}
+	
+	
+	//订单列表查询
+		@RequestMapping("/queryHistoryOrder")
+		public ModelAndView queryHistoryOrder(HttpServletRequest request) throws Exception {
+			SimpleDateFormat sdf1=new SimpleDateFormat("yyyy-MM-dd");
+			orderQueryVo orderQueryVo = new orderQueryVo();
+			List<orderCustom> itemsList = orderService.findOrderList(orderQueryVo);
+			List<orderCustom> count = orderService.findOrderCount(orderQueryVo);
+			List<orderCustom> inventorySumList = orderService.findInventorySum(orderQueryVo);
+			int sum = count.get(0).getCount();
+			String inventorySum = inventorySumList.get(0).getInventorySum();
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.addObject("itemsList", itemsList);
+			request.setAttribute("inventorySum", inventorySum);
+			double num = Math.ceil(sum/10);//查询总页数（每页显示10条）
+			request.setAttribute("sum", sum);
+			request.setAttribute("num", num);
+			modelAndView.setViewName("history/HistoryList");
+			return modelAndView;
+
+		}
+		
+		//根据查询条件过滤商品信息
+		@RequestMapping("/queryHistoryOrderForm")
+		public void queryHistoryOrderForm(HttpServletRequest request,HttpServletResponse response) throws Exception {
+			request.setCharacterEncoding("UTF-8"); 
+			String pageNum = request.getParameter("num");//获取当前页数
+			String clientName = request.getParameter("clientName");
+			String orderNo = request.getParameter("orderNo");
+			int n =0;
+			if(pageNum!=null&&!pageNum.equals("")){
+				n = (int) Double.parseDouble(pageNum);
+			}
+			orderQueryVo orderQueryVo = new orderQueryVo();
+			orderCustom term = new orderCustom();
+			term.setOrderClient(clientName);
+			term.setOrderNo(orderNo);
+			term.setNum((n-1)*10);//设置每页数据的起始索引
+			orderQueryVo.setOrderCustom(term);
+			List<orderCustom> itemsList = orderService.findOrderListPage(orderQueryVo);
+	
+			for(int i=0;i<itemsList.size();i++){
+				if(itemsList.get(i).getOrderSts().toString()=="0"||"0".endsWith(itemsList.get(i).getOrderSts().toString())){
+					itemsList.get(i).setOrderSts("已合计");
+				}else if(itemsList.get(i).getOrderSts().toString()=="1"||"1".endsWith(itemsList.get(i).getOrderSts().toString())){
+					itemsList.get(i).setOrderSts("已扣除");
+				} else {
+					itemsList.get(i).setOrderSts("已作废");
+				}
+			}
+			
+			List<orderCustom> count = orderService.findOrderCount(orderQueryVo);
+			double sum = count.get(0).getCount();
+			JSONObject jsonObject = new JSONObject();
+			PrintWriter writer = null;
+			double num = Math.ceil(sum/10);
+			response.setContentType("text/json");
+			response.setCharacterEncoding("UTF-8");
+			writer = response.getWriter();
+			jsonObject.put("itemsList", itemsList);
+			jsonObject.put("sum", sum);
+			jsonObject.put("num", num);
+			writer.println(jsonObject.toString());
+			writer.flush();
+			writer.close();
+		}
+		
+		@RequestMapping("/findHistoryListById")
+		public void findHistoryListById(HttpServletRequest request,HttpServletResponse response) throws Exception {
+			request.setCharacterEncoding("UTF-8"); 
+			String Id = "799";//获取当前页数
+			List<HistoryCostom> itemsList = historyService.findHistoryListById(Id);
+			response.setContentType("text/json");
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter writer = null;
+			writer = response.getWriter();
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("itemsList", itemsList);
+			writer.println(jsonObject.toString());
+			writer.flush();
+			writer.close();
+		}
 
 }

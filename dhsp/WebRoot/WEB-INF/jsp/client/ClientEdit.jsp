@@ -8,16 +8,6 @@ String flag = request.getAttribute("flag").toString();
 <form id="client-edit-form" class="form-horizontal" role="form"  method="post">
 	<input type="hidden" id="flag" value="<%=flag%>">
 	<div class="form-group">
-	    <label for="goodsCode" class="col-xs-4 control-label">客户代码</label>
-	    <div class="col-xs-5">
-			<input class="form-control" id="editClientCode" name="editClientCode" placeholder="客户代码" maxlength="20" value="${clientCustom.clientCode}" onblur="tsc.ClientEdit.doCheck()">
-			<input type="hidden" id="editClientId" value="${clientCustom.clientId}">
-	    </div>
-	    <div class="col-xs-3">
-		<font id="checkFlag" class="font-red" style="display: none;"></font>
-    </div>
-	</div>
-	<div class="form-group">
 	    <label for="goodsName" class="col-xs-4 control-label">客户名称</label>
 	    <div class="col-xs-5">
 			<input class="form-control" id="editClientName" name="editClientName" placeholder="客户名称" maxlength="20" value="${clientCustom.clientName}">

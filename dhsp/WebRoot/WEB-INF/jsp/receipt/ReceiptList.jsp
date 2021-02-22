@@ -26,63 +26,77 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-1" style="padding-right: 0;">
+<!-- 					<div class="col-xs-1" style="padding-right: 0;">
 						<a href="#" id="historyBtn" class="btn btn-primary btn-sm pull-right">历史交易</a>
-					</div>
-					<div class="col-xs-3" style="display:none">
-						<div class="form-group form-group-sm">
-							<label class="col-xs-4 control-label control-label-sm">收货到站</label>
-							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
-								<input id="logisticsArrival" name="logisticsArrival" type="text" class="form-control">
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-3" style="display:none">
-						<div class="form-group form-group-sm">
-							<label class="col-xs-4 control-label control-label-sm">所属地区</label>
-							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
-								<input id="district" name="district" type="text" class="form-control">
-							</div>
-						</div>
-					</div>
+					</div> -->
 
 		 			<div class="col-xs-3" style="display:none">
 						<div class="form-group form-group-sm">
 							<label class="col-xs-4 control-label control-label-sm">客户名称</label>
 							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
-								<input id="clientName" name="clientName" type="text" class="form-control">
+								<input id="clientName" name="clientName" type="text" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col-xs-3">
 						<div class="form-group form-group-sm">
 							<label class="col-xs-4 control-label control-label-sm">电话</label>
 							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
-								<input id="clientTelephone" name="clientTelephone" type="text" class="form-control">
+								<input id="clientTelephone" name="clientTelephone" type="text" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
-					<div class="col-xs-6">
+					<div class="col-xs-3">
 						<div class="form-group form-group-sm">
-							<label class="col-xs-2 control-label control-label-sm">收货地址</label>
-							<div class="col-xs-10" style="padding-right: 0px; padding-left: 0px;">
-								<input id="clientAddress" name="clientAddress" type="text" class="form-control">
-							</div>
-						</div>
-					</div>
-					<div class="col-xs-3" style="display:none">
-						<div class="form-group form-group-sm">
-							<label class="col-xs-4 control-label control-label-sm">提货地址</label>
+							<label class="col-xs-4 control-label control-label-sm">收货地址</label>
 							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
-								<input id="pickupAdress" name="pickupAdress" type="text" class="form-control">
+								<input id="clientAddress" name="clientAddress" type="text" class="form-control" autocomplete="off">
 							</div>
 						</div>
 					</div>
 				</div>
+ 				<div class="row" style="padding-bottom:10px;">
+<!--  					<div class="col-xs-3">
+						<div class="form-group form-group-sm">
+							<label class="col-xs-4 control-label control-label-sm">关键字</label>
+						</div>
+					</div> -->
+ 					<div class="col-xs-1">
+	 				</div>
+	 					<a onclick="tsc.ReceiptList.insertKeyword('可乐 ')">可乐</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('雪碧 ')">雪碧</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('芬达 ')">芬达</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('红茶 ')">红茶</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('罐 ')">罐</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('高罐 ')">高罐</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('果粒 ')">果粒</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('醒目 ')">醒目</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('酷 ')">酷</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('魔爪 ')">魔爪</a>
+
+	 					<a onclick="tsc.ReceiptList.insertKeyword('冲刺 ')">冲刺</a>
+	 					
+	 					<a onclick="tsc.ReceiptList.insertKeyword('劲酒 ')">劲酒</a>
+	 					
+	 					<a onclick="tsc.ReceiptList.insertKeyword('娃哈哈 ')">娃哈哈</a>
+	 					
+	 					<a onclick="tsc.ReceiptList.insertKeyword('娃哈哈 ')">起跑线</a>
+	 					
+	 					<a onclick="tsc.ReceiptList.insertKeyword('橙 ')">橙</a>
+	 					
+
+				</div>
 				<div class="row">
-					<div class="col-xs-3">
+ 					<div class="col-xs-3">
 						<div class="form-group form-group-sm">
 							<label class="col-xs-4 control-label control-label-sm">商品条码</label>
 							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
@@ -129,8 +143,12 @@
 					<div class="col-xs-3">
 						<div class="form-group form-group-sm">
 							<label class="col-xs-4 control-label control-label-sm">商品单价</label>
-							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
+							<div class="col-xs-5" style="padding-right: 0px; padding-left: 0px;">
 								<input id="goodsPrice" name="goodsPrice" type="text" class="form-control" placeholder="例：100.00" onblur="tsc.ReceiptList.doCompute()" autocomplete="off">
+							</div>
+							<div class="col-xs-3" style="padding-right: 0px; padding-left: 0px;padding-top:6px">
+								<span class="label label-danger" id="defaultPrice" style="display:none">默认价</span>
+								<span class="label label-success" id="historyPrice" style="display:none">历史价</span>
 							</div>
 						</div>
 					</div>
@@ -150,6 +168,8 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div class=row>
 					<div class="col-xs-3">
 						<div class="form-group form-group-sm">
 							<label class="col-xs-4 control-label control-label-sm">生产厂家</label>
@@ -158,10 +178,30 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-xs-3">
+						<div class="form-group form-group-sm">
+							<label class="col-xs-4 control-label control-label-sm">库存数量</label>
+							<div class="col-xs-8" style="padding-right: 0px; padding-left: 0px;">
+								<input id="goodsQuantity" name="goodsQuantity" type="text" class="form-control" autocomplete="off">
+							</div>
+						</div>
+					</div>
+					<div class="col-xs-3" style="padding-right: 0px; padding-left: 0px;padding-top:6px">
+						<span class="label label-success" id="adequateStock" style="display:none">库存充足</span>
+						<span class="label label-warning" id="shortStock" style="display:none">库存紧张</span>
+						<span class="label label-danger" id="underStock" style="display:none">库存不足</span>
+					</div>
 				</div>
 				<div class="row">
-				<div class="col-xs-4">
-				<input id="ifSave" type="checkbox" checked> 保存订单
+				<div class="col-xs-2">
+				<!-- <input id="ifSave" type="checkbox" checked> 保存订单 -->
+					<a href="#" id="reEditHistoryBtn" onclick="tsc.ReceiptList.reEditHistory()" class="btn btn-primary btn-sm pull-right">重开历史订单</a>
+				</div>
+				<div class="col-xs-1">
+					<input id="historyOrderNo" name="historyOrderNo" type="text" class="form-control" autocomplete="off">
+				</div>
+				<div class="col-xs-1">
+				<!-- <input id="ifSave" type="checkbox" checked> 保存订单 -->
 				</div>
 					<div class="col-xs-5" style="padding-right: 0;">
 					<label>
@@ -182,6 +222,9 @@
 						<a href="#" id="printBtn" onclick="prn1_print()" class="btn btn-primary btn-sm pull-right">打印</a>
 <!-- 						<a href="#" onclick="tsc.ReceiptList.doInsertHistory()" class="btn btn-primary btn-sm pull-right">打印</a> -->
 					</div>
+					<div class="col-xs-1" style="padding-left: 0;">
+						<a href="#" id="printBtn" onclick="onlySave()" class="btn btn-primary btn-sm pull-right">保存</a>
+					</div>
 				</div>
 			</form>
 		</div>
@@ -189,8 +232,8 @@
 			<h1 align="center">订 货 单</h1>
 			<table style="width: 100%;">
 				<tr>
-					<td width="17%"><label id="orderDate"></label></td>
-					<td width="34%">订货单位：<font id="name" size="4"></font></td>
+					<td width="15%"><label id="orderDate"></label></td>
+					<td width="36%">订货单位：<font id="name" size="4"></font></td>
 					<td width="28%">地址：<label id="adress"></label></td>
 					<td width="21%">电话：<label id="telephone"></label></td>
 				</tr>
@@ -242,20 +285,27 @@
 		CreateOneFormPage();
 		LODOP.PREVIEW();
 		tsc.ReceiptList.doInsert();
-		var isChecked = $('#ifSave').prop('checked');
+		tsc.ReceiptList.doInsertHistory()
+/* 		var isChecked = $('#ifSave').prop('checked');
 		if(isChecked==true){
 			tsc.ReceiptList.doInsertHistory()
-		}
+		} */
 	};
 	function CreateOneFormPage(){
 		LODOP=getLodop();
 		LODOP.ADD_PRINT_HTM(18,20,715,1000,document.getElementById("printArea").innerHTML);
-	};	                     
+	};
+	function onlySave(){
+		$("#totalNumTitle").text($("#amountTotal").text()+"件");
+		$("#number").text(tsc.ReceiptList.doQueryMaxId());
+		tsc.ReceiptList.doInsert();
+		tsc.ReceiptList.doInsertHistory()
+		alert("保存成功！")
+	}
 </script> 
 <script type="text/javascript"> 
 function displayResult(item, val, text) {
-    console.log(item);
-    $('.alert').show().html('You selected <strong>' + val + '</strong>: <strong>' + text + '</strong>');
+    //$('.alert').show().html('You selected <strong>' + val + '</strong>: <strong>' + text + '</strong>');
 }
 $(function () {
 	var clientArray=new Array();

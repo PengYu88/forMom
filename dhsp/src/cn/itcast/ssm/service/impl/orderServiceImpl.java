@@ -80,4 +80,9 @@ public class orderServiceImpl implements orderService{
 		orderMapperCustom.updateOrderDeliveryMan(orderCustom);
 	}
 
+	@Override
+	public List<orderCustom> findOrderListPage(orderQueryVo orderQueryVo) throws Exception {
+		return orderMapperCustom.findOrderListPage(orderQueryVo);
+	}
+
 }

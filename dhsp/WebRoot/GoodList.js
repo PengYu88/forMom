@@ -56,6 +56,13 @@ tsc.GoodsList = {
 		outHtml=outHtml+"<td>"+list[i].goodsUnit+"</td>";
 		outHtml=outHtml+"<td>"+list[i].price+"</td>";
 		outHtml=outHtml+"<td>"+list[i].goodsRemark+"</td>";
+		if(list[i].goodsQuantity>200){
+			outHtml=outHtml+"<td>"+list[i].goodsQuantity+" <span class='label label-success'>库存充足</span></td>";
+		}else if(list[i].goodsQuantity<200 && list[i].goodsQuantity>0){
+			outHtml=outHtml+"<td>"+list[i].goodsQuantity+" <span class='label label-warning'>库存紧张</span></td>";
+		}else{
+			outHtml=outHtml+"<td>"+list[i].goodsQuantity+" <span class='label label-danger'>库存不足</span></td>";
+		}
 		outHtml=outHtml+"<td><a id='editBtn' onclick='tsc.GoodsList.doEdit("+list[i].goodsId+")'>修改</a>&nbsp;"
 						+"<a id='editBtn' onclick='tsc.GoodsList.doDelete("+list[i].goodsId+")'>删除</a></td>";
 		outHtml=outHtml+"</tr>";

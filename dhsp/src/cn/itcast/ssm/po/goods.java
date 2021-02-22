@@ -21,6 +21,8 @@ public class goods {
     private String updateTime;
     
     private String price;//查询时使用
+    
+    private double goodsQuantity;
 
 	public String getGoodsId() {
 		return goodsId;
@@ -101,5 +103,14 @@ public class goods {
 	public void setPrice(String price) {
 		this.price = price;
 	}
+
+	public double getGoodsQuantity() {
+		return goodsQuantity;
+	}
+
+	public void setGoodsQuantity(double goodsQuantity) {
+		this.goodsQuantity = goodsQuantity;
+	}
+	
 
 }

@@ -5,6 +5,7 @@ public class History {
 	 private String clientName;
 	 private String goodName;
 	 private String goodPrice;
+	 private String orderNo;
 	 
 	public String getClientName() {
 		return clientName;
@@ -24,7 +25,11 @@ public class History {
 	public void setGoodPrice(String goodPrice) {
 		this.goodPrice = goodPrice;
 	}
-	 
-	 
+	public String getOrderNo() {
+		return orderNo;
+	}
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
 	
 }

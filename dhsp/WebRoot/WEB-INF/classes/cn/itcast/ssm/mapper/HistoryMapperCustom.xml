@@ -10,6 +10,9 @@
    			<if test="updateTime!=null and updateTime!=''">
    				AND history.updateTime = '${updateTime}'
    			</if>
+   			<if test="orderId!=null and orderId!=''">
+   				AND history.orderId = '${orderId}'
+   			</if>
 	</sql>
 	
  
@@ -17,9 +20,9 @@
   	<insert id="insertHistory" parameterType="cn.itcast.ssm.po.HistoryCostom" >
 		insert into
 		history
-    	(clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,updateTime,orderId)
+    	(clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsFactory,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,updateTime,orderId)
 		values 
-    	(#{clientInfo},#{goodsCode}, #{goodsName}, #{goodsSpec}, #{goodsUnit}, #{goodsQuantity}, #{goodsPrice}, #{goodsTotal}, #{goodsRemark},NOW(), #{orderId})
+    	(#{clientInfo},#{goodsCode}, #{goodsName}, #{goodsSpec}, #{goodsUnit},#{goodsFactory}, #{goodsQuantity}, #{goodsPrice}, #{goodsTotal}, #{goodsRemark},NOW(), #{orderId})
   	</insert>
   	
  
@@ -31,7 +34,7 @@
   	
   	   	<!-- 查询历史 -->
   	<select id="findHistoryListByOrderId" parameterType="String" resultType="cn.itcast.ssm.po.HistoryCostom">
-  	  		SELECT history_id,clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,DATE_FORMAT(updateTime,'%Y-%m-%d %T') updateTime FROM history where orderId = #{orderId}
+  	  		SELECT history_id,clientInfo,goodsCode,goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsFactory,goodsPrice,goodsTotal,goodsRemark,DATE_FORMAT(updateTime,'%Y-%m-%d %T') updateTime FROM history where orderId = #{orderId}
   	</select>
   	
   	
@@ -49,5 +52,17 @@
   	<select id="selectGoodPriceByClient" parameterType="cn.itcast.ssm.po.HistoryCostom" resultType="cn.itcast.ssm.po.HistoryCostom">
 		SELECT * FROM history WHERE clientInfo = #{clientInfo} AND goodsName = #{goodsName} ORDER BY updateTime desc LIMIT 1
   	</select>
+  	
+  	
+  	
+  	<select id="findHistoryListById" parameterType="String" resultType="cn.itcast.ssm.po.HistoryCostom">
+  		SELECT goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark FROM history where orderId = #{orderId} order by updateTime desc
+  	</select>
+  	
+  	<select id="findSumById" parameterType="String" resultType="String">
+  		SELECT FORMAT(sum(goodsTotal),2) from history where orderId = #{orderId}
+  	</select>
+  	
+  	
   	
 </mapper>

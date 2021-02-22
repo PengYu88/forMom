@@ -12,6 +12,10 @@ public interface orderMapperCustom {
 	
 	//查询订单列表
     public List<orderCustom> findOrderList(orderQueryVo orderQueryVo)throws Exception;
+    
+    
+	//查询订单列表
+    public List<orderCustom> findOrderListPage(orderQueryVo orderQueryVo)throws Exception;
 
     //查询订单数量
 	public List<orderCustom> findOrderCount(orderQueryVo orderQueryVo)throws Exception;

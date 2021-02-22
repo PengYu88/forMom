@@ -66,4 +66,15 @@ public class goodsServiceImpl implements goodsService{
 		return goodsMapperCustom.goodsName(goodsQueryVo);
 	}
 
+	@Override
+	public void reduceGoods(goodsCustom goodsCustom) throws Exception {
+		goodsMapperCustom.reduceGoods(goodsCustom);
+	}
+
+	@Override
+	public void increaseGoods(goodsCustom goodsCustom) throws Exception {
+		goodsMapperCustom.increaseGoods(goodsCustom);
+		
+	}
+
 }

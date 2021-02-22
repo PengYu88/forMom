@@ -5,6 +5,7 @@ public class HistoryCostom {
 	 private String goodsCode;
 	 private String goodsName;
 	 private String goodsSpec;
+	 private String goodsFactory;
 	 private String goodsUnit;
 	 private String goodsQuantity;
 	 private String goodsPrice;
@@ -78,5 +79,12 @@ public class HistoryCostom {
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
+	public String getGoodsFactory() {
+		return goodsFactory;
+	}
+	public void setGoodsFactory(String goodsFactory) {
+		this.goodsFactory = goodsFactory;
+	}
+	
 	
 }

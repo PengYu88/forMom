@@ -35,4 +35,7 @@ public interface goodsService {
 	public List<clientAdress> goodsCode(goodsQueryVo goodsQueryVo) throws Exception;
 	
 	public List<clientAdress> goodsName(goodsQueryVo goodsQueryVo) throws Exception;
+	
+	public void reduceGoods(goodsCustom goodsCustom)throws Exception;
+	public void increaseGoods(goodsCustom goodsCustom)throws Exception;
 }

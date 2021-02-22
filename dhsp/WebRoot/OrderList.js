@@ -32,6 +32,7 @@ tsc.OrderList = {
 		
 		// 新建按钮
 		$("#addBtn").on("click", tsc.OrderList.doAdd);
+		
 
 	},
 
@@ -41,9 +42,9 @@ tsc.OrderList = {
 		var deliveryDate = $("#datetimepicker1").val();
 		$("#delivery").text(deliveryMan);
 		$("#dataLabel").text(deliveryDate);
-		if(deliveryMan=="李宝东"){
+		if(deliveryMan=="董连双"){
 			deliveryMan = "1"
-		}else if(deliveryMan=="韩友财"){
+		}else if(deliveryMan=="韩友才"){
 			deliveryMan = "2"
 		}else{
 			deliveryMan = ""
@@ -62,11 +63,17 @@ tsc.OrderList = {
 		});
 	},
 	
+	
+		// 查询
+	doPrint: function(){
+		window.open("print.jsp")
+	},
+	
 	getTdValue:function(){
 		var tableId = document.getElementById("tab"); 
 		var str = ""; 
 		for(var i=1;i<tableId.rows.length;i++){ 
-			var flag = tableId.rows[i].cells[4].innerHTML
+			var flag = tableId.rows[i].cells[6].innerHTML
 			if(flag=='已合计'){
 			}else{
 				tableId.rows[i].cells[0].style.color = 'red';
@@ -85,20 +92,22 @@ tsc.OrderList = {
 		for(i=0;i<list.length;i++){
 		var deliceryMan = "";
 		if(list[i].deliveryMan==1){
-			deliceryMan = "李宝东"
+			deliceryMan = "董连双"
 		}else if(list[i].deliveryMan==2){
-			deliceryMan = "韩友财"
+			deliceryMan = "韩友才"
 		}else{
 			deliceryMan = ""
 		}
 		outHtml=outHtml+"<tr>";
+		outHtml=outHtml+"<td>"+list[i].orderNo+"</td>";
 		outHtml=outHtml+"<td>"+list[i].orderClient+"</td>";
+		outHtml=outHtml+"<td>"+list[i].orderTime+"</td>";
 		outHtml=outHtml+"<td>"+list[i].deliveryDate+"</td>";
 		outHtml=outHtml+"<td>"+list[i].price+"</td>";
 		outHtml=outHtml+"<td>"+deliceryMan+"</td>";
 		outHtml=outHtml+"<td>"+list[i].orderSts+"</td>";
-		outHtml=outHtml+"<td><a onclick='tsc.OrderList.doEdit("+list[i].goodsId+")'>修改</a>&nbsp;"
-						+"<a onclick='tsc.OrderList.doDelete("+list[i].orderId+")'>删除</a>&nbsp;<a onclick='tsc.OrderList.doDeduct("+list[i].orderId+")'>扣除</a>&nbsp;<a onclick='tsc.OrderList.doTotal("+list[i].orderId+")'>合计</a></td><td><a id='Btn1' class='btn btn-primary btn-sm' onclick='tsc.OrderList.updateOrderDeliveryMan(1,"+list[i].orderId+")'>李宝东</a><a id='Btn2' class='btn btn-primary btn-sm' onclick='tsc.OrderList.updateOrderDeliveryMan(2,"+list[i].orderId+")'>韩友财</a></td>";
+		outHtml=outHtml+"<td><a onclick='tsc.OrderList.doEdit("+list[i].orderId+")'>修改</a>&nbsp;"
+						+"<a onclick='tsc.OrderList.doDelete("+list[i].orderId+")'>作废</a>&nbsp;<a onclick='tsc.OrderList.doDeduct("+list[i].orderId+")'>扣除</a>&nbsp;<a onclick='tsc.OrderList.doTotal("+list[i].orderId+")'>合计</a>&nbsp;<a onclick='tsc.OrderList.queryHistory("+list[i].orderId+")'>查看</a></td><td><a id='Btn1' class='btn btn-primary btn-sm' onclick='tsc.OrderList.updateOrderDeliveryMan(1,"+list[i].orderId+")'>董连双</a><a id='Btn2' class='btn btn-primary btn-sm' onclick='tsc.OrderList.updateOrderDeliveryMan(2,"+list[i].orderId+")'>韩友才</a></td>";
 		outHtml=outHtml+"</tr>";
 		}
 		document.getElementById('tbody').innerHTML=outHtml; 
@@ -174,12 +183,34 @@ tsc.OrderList = {
 			}
 		});
 	},
+	
+			// 查看历史页面
+	queryHistory: function(orderNo){
+		$.ajax({
+			url: "viewHistoryById.action",
+			type: "post",
+			data: {"orderNo":orderNo},
+			success: function(data){
+				var dialog = bootbox.dialog({
+					size: "large",
+					title: $("#orderNo").val(),
+					message: data,
+					buttons:{
+						cancel:{
+							label: SYS_MSG.BTN_CLOSE,
+						    className: "btn-default",
+						}
+					}
+				});
+			}
+		});
+	},
  
 	//删除
 	doDelete: function(id){
 		// 提交请求
 		sweetAlert({
-			title: '确定要删除该条订单信息吗？',
+			title: '确定要作废该条订单信息吗？',
 			type: 'warning',
 			showConfirmButton: true,
 			showCancelButton: true,   
@@ -192,7 +223,7 @@ tsc.OrderList = {
 				$.getJSON("doDeleteOrder.action",{"id":id},function(rs){
 					if(rs.message == "success"){
 						sweetAlert({
-							title: '删除成功！',
+							title: '作废成功！',
 							text: SYS_MSG.MSG_AUOT_CLOSE,
 							type: 'success',
 							showConfirmButton: false,
@@ -214,6 +245,10 @@ tsc.OrderList = {
 			}
 		});
 	},	
+	
+	reEdit:function(id){
+		window.open("http://localhost:8080/dhsp/main.jsp#")
+	},
 	
 	//扣除订单
 	doDeduct:function(id){

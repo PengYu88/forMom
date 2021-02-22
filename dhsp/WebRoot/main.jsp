@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>华都酒行订单管理系统</title>
+<title>大华食品批发订单管理系统</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="" name="description"/>
@@ -63,7 +63,7 @@
 	    <div class="page-header-inner container">
 	        <div class="row">
 	        	<div class="col-xs-2" style="padding-top: 5px">
-	            	<a href="#"><h4>华都酒行订单管理系统</h4></a>
+	            	<a href="#"><h4>大华食品批发订单管理系统</h4></a>
 	            </div>
 	        	<div class="col-xs-10">
 	        		<div class="page-actions">
@@ -110,6 +110,11 @@
 		                               <span class="title">对账</span>
 		                           </a>
   		                       </li>
+  		                       <li class="nav-item">
+		                           <a href="queryHistoryOrder.action" class="nav-link nav-toggle ajaxify">
+		                               <span class="title">历史订单</span>
+		                           </a>
+		                       </li>
 		                   </ul>
 		               </li>  
 		               <li class="nav-item active open">
@@ -256,7 +261,8 @@
     <script src="static/js/prettify.js" type="text/javascript"></script>
  
     <script src="static/js/mockjax.js" type="text/javascript"></script>
-    <script src="static/js/bootstrap-typeahead.js" type="text/javascript"></script>
+    <!-- <script src="static/js/bootstrap-typeahead.js" type="text/javascript"></script> -->
+    <script src="static/js/bootstrap3-typeahead.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 	var CONTENT_PAGE = '';

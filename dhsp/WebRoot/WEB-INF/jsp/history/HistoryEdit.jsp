@@ -36,7 +36,7 @@
 		</c:forEach>
 		</tbody>
 	</table>
-	<a href="#" id="deleteBtn" onclick="tsc.OrderEdit.doDeleteHistory()" class="btn btn-primary btn-sm pull-right">删除</a>
+	<!-- <a href="#" id="deleteBtn" onclick="tsc.OrderEdit.doDeleteHistory()" class="btn btn-primary btn-sm pull-right">删除</a> -->
 	<h5><b>货款总计（人民币）：${cart.priceSum} 元</b></h5>
 	<hr style=" height:2px;border:none;border-top:2px dotted #185598;" />
 </div>

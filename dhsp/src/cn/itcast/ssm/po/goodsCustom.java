@@ -6,6 +6,10 @@ public class goodsCustom extends goods {
 	
 	private int num;//当前页
 	
+	private int ifHasHistory;
+	
+	private double reduceNum;
+	
 	public int getNum() {
 		return num;
 	}
@@ -21,5 +25,22 @@ public class goodsCustom extends goods {
 	public void setCount(int count) {
 		this.count = count;
 	}
+
+	public int getIfHasHistory() {
+		return ifHasHistory;
+	}
+
+	public void setIfHasHistory(int ifHasHistory) {
+		this.ifHasHistory = ifHasHistory;
+	}
+
+	public double getReduceNum() {
+		return reduceNum;
+	}
+
+	public void setReduceNum(double reduceNum) {
+		this.reduceNum = reduceNum;
+	}
+	
 
 }

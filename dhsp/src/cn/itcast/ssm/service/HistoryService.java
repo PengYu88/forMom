@@ -29,5 +29,11 @@ public interface HistoryService {
 	//删除历史
 	public void deleteHistory(HistoryCostom historyCostom)throws Exception;
 	
+	
+	public List<HistoryCostom> findHistoryListById(String orderId)throws Exception;
+	
+	
+	public String findSumById(String orderId)throws Exception;
+	
 	 
 }

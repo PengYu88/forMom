@@ -27,4 +27,7 @@ public interface goodsMapperCustom {
 
 	public List<clientAdress> goodsName(goodsQueryVo goodsQueryVo)throws Exception;
 	
+	public void reduceGoods(goodsCustom goodsCustom)throws Exception;
+	public void increaseGoods(goodsCustom goodsCustom)throws Exception;
+	
 }

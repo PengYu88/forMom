@@ -22,6 +22,9 @@
 		var nextdate = startDate.getDate();
 		var nextnowDate = nextyear+"-"+nextmonth+"-"+nextdate;
 		//$("#orderDate").text(nextnowDate);
+		
+		
+		
 
 		
 		$.ajax({
@@ -252,13 +255,36 @@
 //					$("#goodsCode").val("");
 //				}
 				$("#goodsCode").val(data.itemsList[0].goodsCode);
-				$("#goodsName").val(data.itemsList[0].goodsName);
+				//$("#goodsName").val(data.itemsList[0].goodsName);
 				$("#goodsSpec").val(data.itemsList[0].goodsSpec);
 				$("#factory").val(data.itemsList[0].factory);
 				$("#goodsUnit").val(data.itemsList[0].goodsUnit);
 				$("#goodsPrice").val(data.itemsList[0].price.replace(/,/g, ""));
 				$("#remark").val(data.itemsList[0].goodsRemark);
+				$("#goodsQuantity").val(data.itemsList[0].goodsQuantity);
+				
+				if(data.itemsList[0].goodsQuantity > 200){
+					$("#shortStock").css('display','none');
+					$("#underStock").css('display','none');
+					$("#adequateStock").css('display','block');
+				}else if(data.itemsList[0].goodsQuantity < 200 && data.itemsList[0].goodsQuantity>0) {
+					$("#shortStock").css('display','block');
+					$("#underStock").css('display','none');
+					$("#adequateStock").css('display','none');
+				}else{
+					$("#shortStock").css('display','none');
+					$("#underStock").css('display','block');
+					$("#adequateStock").css('display','none');
+				}
+				
 				$("#amount")[0].focus();
+				if(data.itemsList[0].ifHasHistory == 1){
+					$("#defaultPrice").css('display','none');
+					$("#historyPrice").css('display','block');
+				}else {
+				    $("#defaultPrice").css('display','block');
+					$("#historyPrice").css('display','none');
+				}
 			}
 		});
 	},
@@ -281,16 +307,7 @@
 			type: "post",
 			data: {"clientName":clientName},
 			success: function(data){
-				if(data.itemsList[0]==null){
-					sweetAlert({
-						title: "无此客户，请重新输入！",
-						text: SYS_MSG.MSG_AUOT_CLOSE,
-						type: 'warning',
-						showConfirmButton: false,
-						timer: SYS_CONF.ALERT_TIMER,
-					});
-				}
-				$("#clientName").val(data.itemsList[0].clientName);
+				//$("#clientName").val(data.itemsList[0].clientName);
 				$("#clientAddress").val(data.itemsList[0].clientAddress);
 				$("#clientTelephone").val(data.itemsList[0].clientTelephone);
 				$("#logisticsArrival").val(data.itemsList[0].logisticsArrival);
@@ -354,7 +371,7 @@
 			$("#sum").val("0.00");
 			return false;
 		}
-		$("#name").text($("#clientName").val());
+		$("#name").text($("#clientSearch").val());
 		$("#arrival").text($("#logisticsArrival").val());
 		$("#area").text($("#district").val());
 		$("#consignee").text($("#clientName").val());
@@ -440,6 +457,7 @@
 				obj.goodsCode = $(this).find('td:eq(0)').text();
 				obj.goodsName = $(this).find('td:eq(1)').text();
 				obj.goodsSpec = $(this).find('td:eq(2)').text();
+				obj.goodsFactory = $(this).find('td:eq(3)').text();
 				obj.goodsUnit = $(this).find('td:eq(4)').text();
 				obj.goodsQuantity = $(this).find('td:eq(5)').text().replace(/,/g, "");
 				obj.goodsPrice = $(this).find('td:eq(6)').text().replace(/,/g, "");
@@ -536,6 +554,45 @@
 		});
 	},
 	
+	reEditHistory:function(){
+		$.ajax({
+			url: "reEditHistory.action",
+			type: "post",
+			data: {"orderNo":$("#historyOrderNo").val()},
+			success: function(data){
+				 $("#total").text(data.result[0].priceSum);
+				 console.log(data.result[0].historyCostoms)
+				 for(var i=0;i<data.result[0].historyCostoms.length;i++){
+				 	$("#clientSearch").val(data.result[0].historyCostoms[0].clientInfo);
+				 	$("#name").text(data.result[0].historyCostoms[0].clientInfo);
+				 	$("#orderTable tbody").append('<tr class="toAddClass" style="border:solid 1px black;text-align: center;"><td>'+data.result[0].historyCostoms[i].goodsCode+'</td><td>'+data.result[0].historyCostoms[i].goodsName+'</td><td>'+data.result[0].historyCostoms[i].goodsSpec+'</td><td>'+data.result[0].historyCostoms[i].goodsFactory+'</td><td>'+data.result[0].historyCostoms[i].goodsUnit+'</td><td>'+data.result[0].historyCostoms[i].goodsQuantity+'</td><td>'+data.result[0].historyCostoms[i].goodsPrice+'</td><td class="sum">'+data.result[0].historyCostoms[i].goodsTotal+'</td><td>'+data.result[0].historyCostoms[i].goodsRemark+'</td></tr>');
+				 	$(".toAddClass").on("dblclick", tsc.ReceiptList.doDelete);
+				 	
+				 	var total = 0 
+					$('#orderTable tr').each(function(){ 
+						$(this).find('td:eq(7)').each(function(){ 
+							total += parseFloat($(this).text().replace(/,/g, "")); 
+						}); 
+					});
+					var total2 = tsc.ReceiptList.fmoney(total,2).replace(/,/g, "");
+					
+					var amountTotal = 0
+					$('#orderTable tr').each(function(){ 
+						$(this).find('td:eq(5)').each(function(){ 
+							amountTotal += parseInt($(this).text().replace(/,/g, "")); 
+						}); 
+					});
+					$("#total").text(tsc.ReceiptList.fmoney(total,2));
+					
+					$("#amountTotal").text(amountTotal);
+					$("#chineseTotal").text(tsc.ReceiptList.fmoney2(parseFloat(total2)));
+				 }
+				 
+			}
+		});
+	},
+
+	
 	// 查看历史页面
 	deleteAll: function(){
 		if(window.confirm('你确定要清空吗？')){
@@ -550,6 +607,17 @@
         }
 		// 提交请求
 	},
+	
+	insertKeyword:function(txt){
+		$("#goodsName").val(txt);
+		$("#goodsName")[0].focus();
+		var e = jQuery.Event("keydown"); //模拟一个键盘事件
+		e.keyCode = 8;
+		debugger
+		e.which = 8;  //增加设置which
+		$('#goodsName').trigger(e); //模拟按键
+	},
+	
 	
 	
 	

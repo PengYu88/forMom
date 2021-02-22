@@ -23,8 +23,8 @@ String nowDate = request.getAttribute("nowDate").toString();
 							<div class="col-xs-8">
 								<select class="form-control" id="deliveryMan" name="deliveryMan" onchange="tsc.OrderList.doQuery()">
 									<option>全部</option>
-									<option>李宝东</option>
-									<option>韩友财</option>
+									<option>董连双</option>
+									<option>韩友才</option>
 								</select>
 							</div>
 						</div>
@@ -34,7 +34,6 @@ String nowDate = request.getAttribute("nowDate").toString();
 							<label class="col-xs-3 control-label control-label-sm">配送日期</label>
 							<div class="col-xs-9">
 								<input type="text" id="datetimepicker1" class="form-control" autocomplete="off" onchange="tsc.OrderList.doQuery()">
-								
 							</div>
 						</div>
 					</div>
@@ -42,9 +41,9 @@ String nowDate = request.getAttribute("nowDate").toString();
 						<div class="col-xs-2" style="padding-right: 0;">
 							<a href="#" id="addBtn" class="btn btn-primary btn-sm pull-right">新增</a>
 						</div>
-<!-- 						<div class="col-xs-3" style="padding-left: 0;">
-							<a href="#" id="queryBtn" class="btn btn-primary btn-sm pull-right">查询</a>
-						</div> -->
+ 						<div class="col-xs-3" style="padding-left: 0;">
+							<a href="#" id="printBtn" class="btn btn-primary btn-sm pull-right" value="to test2" onclick="tsc.OrderList.doPrint()">打印</a>
+						</div>
 					</div>
 				</div>
 			</form>
@@ -60,7 +59,9 @@ String nowDate = request.getAttribute("nowDate").toString();
 		<table class="table table-hover" id="tab">
 			<thead>
 				<tr>
+					<th>订单流水号</th>
 				    <th>客户名称</th>
+				    <th>开票时间</th>
 				    <th>配送日期</th>
 				    <th>订单总额（元）</th>
 				    <th>配送人</th>
@@ -72,14 +73,16 @@ String nowDate = request.getAttribute("nowDate").toString();
 			<tbody id="tbody">
 				<c:forEach items="${itemsList}" var="item">
 					<tr>
+						<td>${item.orderNo}</td>
 						<td>${item.orderClient}</td>
+						<td>${item.orderTime}</td>
 						<td>${item.deliveryDate}</td>
 						<td>${item.price}</td>
 						<c:if test="${item.deliveryMan==1}">
-							<td>李宝东</td>
+							<td>董连双</td>
 						</c:if>
 						<c:if test="${item.deliveryMan==2}">
-							<td>韩友财</td>
+							<td>韩友才</td>
 						</c:if>
 						<c:if test="${item.deliveryMan==null}">
 							<td></td>
@@ -87,14 +90,14 @@ String nowDate = request.getAttribute("nowDate").toString();
 						<td>${item.orderSts}</td>
 						<td>
 							<a href="#" onclick="tsc.OrderList.doEdit('${item.orderId}')">修改</a>
-				          	<a href="#" onclick="tsc.OrderList.doDelete(${item.orderId})">删除</a>
+				          	<a href="#" onclick="tsc.OrderList.doDelete(${item.orderId})">作废</a>
 							<a href="#" onclick="tsc.OrderList.doDeduct(${item.orderId})">扣除</a>
 							<a href="#" onclick="tsc.OrderList.doTotal(${item.orderId})">合计</a>
-							<a href="#" onclick="tsc.OrderList.doView(${item.orderId})">查看</a>
+							<a href="#" onclick="tsc.OrderList.queryHistory(${item.orderNo})">查看</a>
 						</td>
 						<td>
-							<a id="Btn1" class="btn btn-primary btn-sm" onclick="tsc.OrderList.updateOrderDeliveryMan('1','${item.orderId}')">李宝东</a>
-							<a id="Btn2" class="btn btn-primary btn-sm" onclick="tsc.OrderList.updateOrderDeliveryMan('2','${item.orderId}')">韩友财</a>
+							<a id="Btn1" class="btn btn-primary btn-sm" onclick="tsc.OrderList.updateOrderDeliveryMan('1','${item.orderId}')">董连双</a>
+							<a id="Btn2" class="btn btn-primary btn-sm" onclick="tsc.OrderList.updateOrderDeliveryMan('2','${item.orderId}')">韩友才</a>
 						</td>
 					</tr>
 				</c:forEach>

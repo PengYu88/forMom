@@ -73,6 +73,7 @@ tsc.GoodsEdit = {
 		var goodsUnit = $("#editGoodsUnit").val();
 		var goodsPrice = $("#editGoodsPrice").val();
 		var goodsRemark = $("#editGoodsRemark").val();
+		var goodsQuantity = $("#goodsQuantity").val();
 		// 表单验证
 		if(!$("#goods-edit-form").valid()){
 			return false;
@@ -88,7 +89,8 @@ tsc.GoodsEdit = {
 				"factory":factory,
 				"goodsUnit":goodsUnit,
 				"goodsPrice":goodsPrice,
-				"goodsRemark":goodsRemark
+				"goodsRemark":goodsRemark,
+				"goodsQuantity":goodsQuantity
 				},
 			dataType:"json",
 			success: function(rs) {
@@ -120,6 +122,7 @@ tsc.GoodsEdit = {
 		var goodsUnit = $("#editGoodsUnit").val();
 		var goodsPrice = $("#editGoodsPrice").val();
 		var goodsRemark = $("#editGoodsRemark").val();
+		var goodsQuantity = $("#goodsQuantity").val();
 		// 表单验证
 		if(!$("#goods-edit-form").valid()){
 			return false;
@@ -136,7 +139,8 @@ tsc.GoodsEdit = {
 				"factory":factory,
 				"goodsUnit":goodsUnit,
 				"goodsPrice":goodsPrice,
-				"goodsRemark":goodsRemark
+				"goodsRemark":goodsRemark,
+				"goodsQuantity":goodsQuantity
 				},
 			dataType:"json",
 			success: function(rs) {

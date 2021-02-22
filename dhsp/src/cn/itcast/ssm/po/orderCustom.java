@@ -7,6 +7,16 @@ public class orderCustom extends order {
 	private double ordreCount;
 	
 	private String price;
+	
+	private int num;//当前页
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
 
 	public int getCount() {
 		return count;

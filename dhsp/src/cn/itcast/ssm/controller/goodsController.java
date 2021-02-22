@@ -136,6 +136,7 @@ public class goodsController {
 				goodsPrice = Double.parseDouble(request.getParameter("goodsPrice"));
 			}
 			String goodsRemark = request.getParameter("goodsRemark");
+			String goodsQuantity = request.getParameter("goodsQuantity");
 			goodsCustom goodsCustom = new goodsCustom();
 			goodsCustom.setGoodsCode(goodsCode);
 			goodsCustom.setGoodsName(goodsName); 
@@ -144,6 +145,7 @@ public class goodsController {
 			goodsCustom.setGoodsUnit(goodsUnit);
 			goodsCustom.setGoodsPrice(goodsPrice);
 			goodsCustom.setGoodsRemark(goodsRemark);
+			goodsCustom.setGoodsQuantity(Double.parseDouble(goodsQuantity));
 			goodsService.insertGoods(goodsCustom);
 			JSONObject jsonObject = new JSONObject();
 			PrintWriter writer = null;
@@ -180,6 +182,7 @@ public class goodsController {
 				goodsPrice = Double.parseDouble(request.getParameter("goodsPrice"));
 			}
 			String goodsRemark = request.getParameter("goodsRemark");
+			String goodsQuantity = request.getParameter("goodsQuantity");
 			goodsCustom goodsCustom = new goodsCustom();
 			goodsCustom.setGoodsId(goodsId);
 			goodsCustom.setGoodsCode(goodsCode);
@@ -189,6 +192,7 @@ public class goodsController {
 			goodsCustom.setGoodsUnit(goodsUnit);
 			goodsCustom.setGoodsPrice(goodsPrice);
 			goodsCustom.setGoodsRemark(goodsRemark);
+			goodsCustom.setGoodsQuantity(Double.parseDouble(goodsQuantity));
 			goodsService.updateGoods(goodsCustom);
 			JSONObject jsonObject = new JSONObject();
 			PrintWriter writer = null;

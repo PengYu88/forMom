@@ -25,7 +25,7 @@
   	<!-- 商品列表查询 -->
   	<select id="findGoodsList" parameterType="cn.itcast.ssm.po.goodsQueryVo"
   		 resultType="cn.itcast.ssm.po.goodsCustom">
-  		SELECT goodsId,goodsCode,goodsName,goodsSpec,factory,goodsUnit,FORMAT(goodsPrice,2) price,goodsPrice,goodsRemark,updateTime FROM goods  
+  		SELECT goodsId,goodsCode,goodsName,goodsSpec,factory,goodsUnit,FORMAT(goodsPrice,2) price,goodsPrice,goodsRemark,updateTime,goodsQuantity FROM goods  
   		WHERE 1=1	
 		<include refid="query_goods_where"></include>
   		ORDER BY goods.factory ASC , goods.updateTime DESC
@@ -50,9 +50,9 @@
   	<insert id="insertGoods" parameterType="cn.itcast.ssm.po.goodsCustom" >
 		insert into
 		goods 
-    	(goodsCode,goodsName,goodsSpec,factory,goodsUnit,goodsPrice,goodsRemark,updateTime)
+    	(goodsCode,goodsName,goodsSpec,factory,goodsUnit,goodsPrice,goodsRemark,updateTime,goodsQuantity)
 		values 
-    	(#{goodsCode}, #{goodsName}, #{goodsSpec}, #{factory}, #{goodsUnit}, #{goodsPrice},#{goodsRemark},NOW()) 
+    	(#{goodsCode}, #{goodsName}, #{goodsSpec}, #{factory}, #{goodsUnit}, #{goodsPrice},#{goodsRemark},NOW(),#{goodsQuantity}) 
   	</insert>
   	
   	<!-- 修改商品 -->
@@ -66,6 +66,7 @@
 			goodsUnit = #{goodsUnit},
 			goodsPrice = #{goodsPrice},
 			goodsRemark = #{goodsRemark},
+			goodsQuantity = #{goodsQuantity},
 			updateTime = NOW()
     	where goods.goodsId = '${goodsId}'
 	</update>
@@ -79,6 +80,22 @@
   		 resultType="cn.itcast.ssm.po.clientAdress">
   		SELECT goodsId as id, goodsName as name FROM goods
   	</select>
+  	
+  	 <update id="reduceGoods" parameterType="cn.itcast.ssm.po.goodsCustom" >
+		update goods
+		set 
+			goodsQuantity = goodsQuantity - #{reduceNum}
+		where 
+			goodsName = '${goodsName}'
+	</update>
+	
+	 <update id="increaseGoods" parameterType="cn.itcast.ssm.po.goodsCustom" >
+		update goods
+		set 
+			goodsQuantity = goodsQuantity + #{reduceNum}
+		where 
+			goodsName = '${goodsName}'
+	</update>
   	
   	
 </mapper>

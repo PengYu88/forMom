@@ -18,19 +18,32 @@
    			<if test="orderCustom.deliveryDate!=null and orderCustom.deliveryDate!=''">
    				AND orders.deliveryDate = '${orderCustom.deliveryDate}'
    			</if>
-<!--    			<if test="orderCustom.orderClient!=null and orderCustom.orderClient!=''">
+    	 	<if test="orderCustom.orderClient!=null and orderCustom.orderClient!=''">
    				AND orders.orderClient LIKE '%${orderCustom.orderClient}%'
-   			</if> -->
+   			</if>
    		</if>
 	</sql>
   	 
   	<!--  查询订单列表 -->
   	<select id="findOrderList" parameterType="cn.itcast.ssm.po.orderQueryVo"
   		 resultType="cn.itcast.ssm.po.orderCustom">
-  		SELECT orderId,orderNo,orderClient,date_format(orderTime,'%Y-%m-%d %T') orderTime,FORMAT(orderSum,2) price,orderSts,deliveryMan,orderSum,deliveryDate FROM orders  WHERE 1=1
+  		SELECT orderId,orderNo,orderClient,date_format(orderTime,'%Y-%m-%d %T') orderTime,FORMAT(orderSum,2) price,orderSts,deliveryMan,orderSum,date_format(deliveryDate,'%Y-%m-%d') deliveryDate FROM orders  WHERE 1=1
+		And orderSts != '2'
 		<include refid="query_order_where"></include>
   		ORDER BY orderSts ASC, orders.orderTime DESC
   	</select>
+  	
+  	
+  	  	<!-- 商品列表查询 -->
+  	<select id="findOrderListPage" parameterType="cn.itcast.ssm.po.orderQueryVo"
+  		 resultType="cn.itcast.ssm.po.orderCustom">
+  		SELECT orderId,orderNo,orderClient,date_format(orderTime,'%Y-%m-%d %T') orderTime,FORMAT(orderSum,2) price,orderSts,deliveryMan,orderSum,date_format(deliveryDate,'%Y-%m-%d') deliveryDate FROM orders  WHERE 1=1
+		<include refid="query_order_where"></include>
+  		ORDER BY orders.orderTime DESC
+  		limit ${orderCustom.num} ,10
+  	</select>
+  	
+  	
   	
   	<!-- 查询订单数量 -->
   	<select id="findOrderCount" parameterType="cn.itcast.ssm.po.orderQueryVo"
@@ -56,10 +69,9 @@
   	</insert>
   	
   	<!-- 删除订单 -->
-	<delete id="deleteOrder" parameterType="cn.itcast.ssm.po.orderCustom" >
-	   delete from orders
-	   where orders.orderId = '${orderId}'
-  	</delete>
+	<update id="deleteOrder" parameterType="cn.itcast.ssm.po.orderCustom" >
+	   update orders set orders.orderSts = '2' where orders.orderId = '${orderId}'
+  	</update>
   	
   	<!-- 修改订单状态（扣除和合计） -->
   	<update id="updateOrderSts" parameterType="cn.itcast.ssm.po.orderCustom" >

@@ -47,6 +47,16 @@ public class HistoryServiceImpl implements HistoryService{
 		return historyMapperCustom.selectGoodPriceByClient(historyCostom);
 	}
 
+	@Override
+	public List<HistoryCostom> findHistoryListById(String orderId) throws Exception {
+		return historyMapperCustom.findHistoryListByOrderId(orderId);
+	}
+
+	@Override
+	public String findSumById(String orderId) throws Exception {
+		return historyMapperCustom.findSumById(orderId);
+	}
+
 	 
 
 }

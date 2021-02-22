@@ -18,6 +18,9 @@ public interface orderService {
 	
 	//订单列表查询
 	public List<orderCustom> findOrderList(orderQueryVo orderQueryVo)throws Exception;
+	
+	//订单列表查询
+	public List<orderCustom> findOrderListPage(orderQueryVo orderQueryVo)throws Exception;
 
 	//订单数量查询
 	public List<orderCustom> findOrderCount(orderQueryVo orderQueryVo)throws Exception;
