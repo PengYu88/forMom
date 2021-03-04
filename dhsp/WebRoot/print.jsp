@@ -46,8 +46,10 @@ if(deliveryMan.value == "董连双"){
 	deliveryManParm = 1
 }else if(deliveryMan.value == "韩友才"){
 	deliveryManParm = 2
-}else {
-	deliveryManParm = ""
+}else if(deliveryMan.value == "空") {
+	deliveryManParm = 0
+}else{
+	deliveryManParm = 3
 }
 $.ajax({
 	url: "queryOrderByForm.action",

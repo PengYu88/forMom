@@ -215,14 +215,14 @@
 						 
 						 <font size="5px" id="deliveryLabel"></font>
 					</div>
-					<div class="col-xs-1" style="padding-right: 0;">
+					<div class="col-xs-1">
 						<a href="#" id="addBtn" class="btn btn-primary btn-sm pull-right">插入</a>
 					</div>
-					<div class="col-xs-1" style="padding-left: 0;">
+					<div class="col-xs-1">
 						<a href="#" id="printBtn" onclick="prn1_print()" class="btn btn-primary btn-sm pull-right">打印</a>
 <!-- 						<a href="#" onclick="tsc.ReceiptList.doInsertHistory()" class="btn btn-primary btn-sm pull-right">打印</a> -->
 					</div>
-					<div class="col-xs-1" style="padding-left: 0;">
+					<div class="col-xs-1">
 						<a href="#" id="printBtn" onclick="onlySave()" class="btn btn-primary btn-sm pull-right">保存</a>
 					</div>
 				</div>
@@ -272,6 +272,7 @@
 		    		<td width="50%" colspan="2">&nbsp;&nbsp;订单流水号：<font id="number"></font></td>
 	    		</tr>
 	    	</table>
+	    	<hr>
 		</div>
 	</div>
 </div>
@@ -283,7 +284,9 @@
 		$("#totalNumTitle").text($("#amountTotal").text()+"件");
 		$("#number").text(tsc.ReceiptList.doQueryMaxId());
 		CreateOneFormPage();
+		//LODOP.SET_PRINT_PAGESIZE(3,1500,55,"");//这里3表示纵向打印且纸高“按内容的高度”；1385表示纸宽138.5mm；45表示页底空白4.5mm
 		LODOP.PREVIEW();
+		//LODOP.PRINT();  
 		tsc.ReceiptList.doInsert();
 		tsc.ReceiptList.doInsertHistory()
 /* 		var isChecked = $('#ifSave').prop('checked');
@@ -300,7 +303,13 @@
 		$("#number").text(tsc.ReceiptList.doQueryMaxId());
 		tsc.ReceiptList.doInsert();
 		tsc.ReceiptList.doInsertHistory()
-		alert("保存成功！")
+		sweetAlert({
+			title: '保存成功！',
+			text: SYS_MSG.MSG_AUOT_CLOSE,
+			type: 'success',
+			showConfirmButton: false,
+			timer: SYS_CONF.ALERT_TIMER,
+		});
 	}
 </script> 
 <script type="text/javascript"> 

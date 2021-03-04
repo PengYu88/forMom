@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.core.config.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.itcast.ssm.po.HistoryCostom;
 import cn.itcast.ssm.po.goodsCustom;
 import cn.itcast.ssm.po.goodsQueryVo;
+import cn.itcast.ssm.po.order;
 import cn.itcast.ssm.po.orderCustom;
 import cn.itcast.ssm.po.orderQueryVo;
 import cn.itcast.ssm.service.orderService;
@@ -401,6 +404,44 @@ public class orderController {
 			writer.println(jsonObject.toString());
 			writer.flush();
 			writer.close();
+		}
+		
+		
+		@RequestMapping("/batchPrint")
+		public void batchPrint(HttpServletRequest request,HttpServletResponse response) throws Exception {
+			request.setCharacterEncoding("UTF-8"); 
+			String orderNoStr = request.getParameter("orderNoStr");//获取当前页数
+			String[] orderIdArr = orderNoStr.split(",");
+			
+			List<orderCustom> orderList = new ArrayList();
+			
+			for(int i=0;i<orderIdArr.length;i++) {
+				
+				String orderNo = request.getParameter("orderNo");
+				orderQueryVo orderQueryVo = new orderQueryVo();
+				orderCustom term = new orderCustom();
+				term.setOrderNo(orderIdArr[i]);
+				orderQueryVo.setOrderCustom(term);
+				List<orderCustom> itemsList = orderService.findOrderListPage(orderQueryVo);
+				
+				orderCustom orderCustom = new orderCustom();
+				orderCustom = itemsList.get(0);
+				List<HistoryCostom> history = historyService.findHistoryListById(orderIdArr[i]);
+				orderCustom.setHistoryCostoms(history);
+				orderList.add(orderCustom);
+			}
+			
+			//System.out.print(orderList.size());
+			response.setContentType("text/json");
+			response.setCharacterEncoding("UTF-8");
+			PrintWriter writer = null;
+			writer = response.getWriter();
+			JSONObject jsonObject = new JSONObject();
+			jsonObject.put("itemsList", orderList);
+			writer.println(jsonObject.toString());
+			writer.flush();
+			writer.close();
+			
 		}
 
 }

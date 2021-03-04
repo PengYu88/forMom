@@ -1,5 +1,7 @@
 package cn.itcast.ssm.po;
 
+import java.util.List;
+
 public class orderCustom extends order {
 	
 	private int count;
@@ -9,6 +11,8 @@ public class orderCustom extends order {
 	private String price;
 	
 	private int num;//当前页
+	
+	private List<HistoryCostom> historyCostoms;
 
 	public int getNum() {
 		return num;
@@ -41,5 +45,14 @@ public class orderCustom extends order {
 	public void setPrice(String price) {
 		this.price = price;
 	}
+
+	public List<HistoryCostom> getHistoryCostoms() {
+		return historyCostoms;
+	}
+
+	public void setHistoryCostoms(List<HistoryCostom> historyCostoms) {
+		this.historyCostoms = historyCostoms;
+	}
+	
 	
 }

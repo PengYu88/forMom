@@ -56,7 +56,7 @@
   	
   	
   	<select id="findHistoryListById" parameterType="String" resultType="cn.itcast.ssm.po.HistoryCostom">
-  		SELECT goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark FROM history where orderId = #{orderId} order by updateTime desc
+  		SELECT goodsName,goodsSpec,goodsUnit,goodsQuantity,goodsPrice,goodsTotal,goodsRemark,orderId FROM history where orderId = #{orderId} order by updateTime desc
   	</select>
   	
   	<select id="findSumById" parameterType="String" resultType="String">

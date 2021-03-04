@@ -12,7 +12,7 @@
    			<if test="orderCustom.orderNo!=null and orderCustom.orderNo!=''">
    				AND orders.orderNo = '${orderCustom.orderNo}'
    			</if>
-   			<if test="orderCustom.deliveryMan!=null and orderCustom.deliveryMan!=''">
+   			<if test="orderCustom.deliveryMan!=null and orderCustom.deliveryMan!=3">
    				AND orders.deliveryMan = '${orderCustom.deliveryMan}'
    			</if>
    			<if test="orderCustom.deliveryDate!=null and orderCustom.deliveryDate!=''">
@@ -63,9 +63,9 @@
   	<insert id="insertOrder" parameterType="cn.itcast.ssm.po.orderCustom" >
 		insert into
 		orders 
-    	(orderNo,orderClient,orderTime,orderSum,orderSts,deliveryDate)
+    	(orderNo,orderClient,orderTime,orderSum,orderSts,deliveryDate,deliveryMan)
 		values 
-    	(#{orderNo}, #{orderClient}, NOW(), #{orderSum},'0',#{deliveryDate})
+    	(#{orderNo}, #{orderClient}, NOW(), #{orderSum},'0',#{deliveryDate},'0')
   	</insert>
   	
   	<!-- 删除订单 -->

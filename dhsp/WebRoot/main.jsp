@@ -107,7 +107,7 @@
 		                       </li>
 		                       <li class="nav-item">
 		                           <a href="queryOrder.action" class="nav-link nav-toggle ajaxify">
-		                               <span class="title">对账</span>
+		                               <span class="title">对账/批量票据打印</span>
 		                           </a>
   		                       </li>
   		                       <li class="nav-item">

@@ -25,6 +25,7 @@ String nowDate = request.getAttribute("nowDate").toString();
 									<option>全部</option>
 									<option>董连双</option>
 									<option>韩友才</option>
+									<option>空</option>
 								</select>
 							</div>
 						</div>
@@ -38,12 +39,18 @@ String nowDate = request.getAttribute("nowDate").toString();
 						</div>
 					</div>
 					<div class="col-xs-4">
-						<div class="col-xs-2" style="padding-right: 0;">
+<!-- 						<div class="col-xs-2" style="padding-right: 0;">
 							<a href="#" id="addBtn" class="btn btn-primary btn-sm pull-right">新增</a>
+						</div> -->
+ 						<div class="col-xs-4" style="padding-left: 0;">
+							<a href="#" id="printBtn" class="btn btn-primary btn-sm pull-right" value="to test2" onclick="tsc.OrderList.doPrint()">打印对账单</a>
 						</div>
- 						<div class="col-xs-3" style="padding-left: 0;">
-							<a href="#" id="printBtn" class="btn btn-primary btn-sm pull-right" value="to test2" onclick="tsc.OrderList.doPrint()">打印</a>
+ 						<div class="col-xs-4" style="padding-left: 0;">
+							<a href="#" id="printOrderBtn" class="btn btn-primary btn-sm pull-right" value="to test2" onclick="tsc.OrderList.doPrintOrder()">批量打印订单</a>
 						</div>
+<!--  						<div class="col-xs-3" style="padding-left: 0;">
+							<a href="#" id="printOrderBtn" class="btn btn-primary btn-sm pull-right" value="to test2" onclick="tsc.OrderList.prn1_print()">打印订单</a>
+						</div> -->
 					</div>
 				</div>
 			</form>
@@ -59,6 +66,7 @@ String nowDate = request.getAttribute("nowDate").toString();
 		<table class="table table-hover" id="tab">
 			<thead>
 				<tr>
+					<th><input id="checkAll" type="checkbox" onclick="tsc.OrderList.check()"></th>
 					<th>订单流水号</th>
 				    <th>客户名称</th>
 				    <th>开票时间</th>
@@ -73,6 +81,7 @@ String nowDate = request.getAttribute("nowDate").toString();
 			<tbody id="tbody">
 				<c:forEach items="${itemsList}" var="item">
 					<tr>
+						<td><input name="orderList" type="checkbox" value='${item.orderNo}' class="check_cb"></td>
 						<td>${item.orderNo}</td>
 						<td>${item.orderClient}</td>
 						<td>${item.orderTime}</td>
@@ -84,7 +93,7 @@ String nowDate = request.getAttribute("nowDate").toString();
 						<c:if test="${item.deliveryMan==2}">
 							<td>韩友才</td>
 						</c:if>
-						<c:if test="${item.deliveryMan==null}">
+						<c:if test="${item.deliveryMan==0}">
 							<td></td>
 						</c:if>
 						<td>${item.orderSts}</td>
@@ -104,5 +113,29 @@ String nowDate = request.getAttribute("nowDate").toString();
 			</tbody>
     	</table>
 	</div>
+	<div id=printDiv>	
 </div>
+</div>
+
 <script src="OrderList.js" type="text/javascript"></script>
+<script src="LodopFuncs.js"></script>
+<script type="text/javascript"> 
+/* 	var LODOP; //声明为全局变量 
+	function prn1_print() {
+		var o = document.getElementById("printDiv");
+		var h = o.offsetHeight; //高度
+		//alert(h)
+		if(h>4200){
+			alert("太长啦，少选几家吧！")
+			return
+		}
+		CreateOneFormPage();
+		LODOP.SET_PRINT_PAGESIZE(3,2100,100,"");//这里3表示纵向打印且纸高“按内容的高度”；1385表示纸宽138.5mm；45表示页底空白4.5mm
+		LODOP.PREVIEW();
+		//LODOP.PRINT();  
+	};
+	function CreateOneFormPage(){
+		LODOP=getLodop();
+		LODOP.ADD_PRINT_HTM(0,20,715,1000,document.getElementById("printDiv").innerHTML);
+	}; */
+</script> 
